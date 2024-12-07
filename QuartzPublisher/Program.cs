@@ -1,20 +1,58 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using CommandLine;
+using System.CommandLine;
 
 namespace QuartzPublisher
 {
     public static class Program
     {
-        private static void Main(string[] args)
+        private static int Main(string[] args)
         {
-            Parser.Default.ParseArguments<Options>(args)
-                .WithParsed(options =>
+            var sourceDirectoryOption = new Option<DirectoryInfo?>(
+                name: "--source",
+                description: "Source directory for files to publish, e.g. /path/to/vault"
+            );
+            sourceDirectoryOption.AddAlias("-s");
+            
+            var destinationDirectoryOption = new Option<DirectoryInfo?>(
+                name: "--destination",
+                description: "Destination directory for files to publish, e.g. /path/to/content"
+            );
+            destinationDirectoryOption.AddAlias("-d");
+            
+            var verboseOption = new Option<bool>(
+                name: "--verbose",
+                description: "Enable verbose output",
+                getDefaultValue: () => false
+            );
+            verboseOption.AddAlias("-v");
+            
+            var noDeleteOption = new Option<bool>(
+                name: "--no-delete",
+                description: "Disable deletion of files not marked for publishing",
+                getDefaultValue: () => false
+            );
+            
+            
+            var rootCommand = new RootCommand("Publishes files from a source directory to a target directory")
+            {
+                sourceDirectoryOption,
+                destinationDirectoryOption,
+                verboseOption,
+                noDeleteOption
+            };
+            
+            rootCommand.SetHandler((DirectoryInfo? source, DirectoryInfo? destination, bool verbose, bool noDelete) =>
+            {
+                if (source is null || destination is null)
                 {
-                    if (!Path.Exists(options.Source)) throw new ArgumentException("Source directory does not exist");
-                    if (!Path.Exists(options.Destination)) throw new ArgumentException("Destination directory does not exist");
-                    PublishContent(options.Source, options.Destination, options.Verbose, options.NoDelete);
-                });
+                    Console.WriteLine("Source and destination directories must be provided.");
+                    return;
+                }
+                
+                PublishContent(source?.FullName, destination?.FullName, verbose, noDelete);
+            }, sourceDirectoryOption, destinationDirectoryOption, verboseOption, noDeleteOption);
+
+            return rootCommand.Invoke(args);
         }
 
         /// <summary>
@@ -91,24 +129,5 @@ namespace QuartzPublisher
 
             return shouldPublish;
         }
-    }
-
-    /// <summary>
-    /// Command line options for QuartzPublisher
-    /// </summary>
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-    internal class Options
-    {
-        [Option('s', "source", Required = true, HelpText = "Source directory for files to publish, e.g. /path/to/vault")]
-        public required string Source { get; set; }
-        
-        [Option('d', "destination", Required = true, HelpText = "Destination directory for files to publish, e.g. /path/to/content")]
-        public required string Destination { get; set; }
-        
-        [Option('v', "verbose", Default = false, HelpText = "Enable verbose output")]
-        public bool Verbose { get; set; }
-        
-        [Option("no-delete", Default = false, HelpText = "Disable deletion of files not marked for publishing")]
-        public bool NoDelete { get; set; }
     }
 }
