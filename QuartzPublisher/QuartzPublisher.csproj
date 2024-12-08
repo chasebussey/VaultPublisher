@@ -7,16 +7,21 @@
         <Nullable>enable</Nullable>
         <AssemblyName>quartz-publish</AssemblyName>
         <Version>0.0.1</Version>
+        <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     </PropertyGroup>
     
     <PropertyGroup>
         <PackAsTool>true</PackAsTool>
         <ToolCommandName>quartz-publish</ToolCommandName>
         <PackageId>QuartzPublisher</PackageId>
+        <PackageOutputPath>./nupkg</PackageOutputPath>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
+        <None Include="../README.md" Pack="true" PackagePath="." />
     </ItemGroup>
 
 </Project>
