@@ -4,8 +4,8 @@ QuartzPublisher is a .NET Core utility to assist in publishing markdown files fr
 a static site generated with [Quartz](https://quartz.jzhao.xyz). The tool will search an Obsidian vault
 for any documents with `publish: true` in the frontmatter and copy them to the Quartz content directory.
 
-## Installation
-### Build from Source
+# Installation
+## Build from Source
 1. Prerequisites:
    - .NET Core 9.0
 2. Steps:
@@ -22,10 +22,10 @@ for any documents with `publish: true` in the frontmatter and copy them to the Q
    # Build the project
    dotnet build
    ```
-### Install as dotnet tool
+## Install as dotnet tool
 `dotnet tool install --global QuartzPublisher`
 
-## Usage
+# Usage
 Installing or building the tool from source will create a `quartz-publish` executable. To use the tool, run the executable with the following arguments:
 - `--source` or `-s`: The path to the Obsidian vault directory
 - `--destination` or `-d`: The path to the Quartz content directory
@@ -37,3 +37,8 @@ Note that the default behavior is to delete files in the destination directory t
 QuartzPublisher scans the source directory for Markdown files containing `publish: true` in the frontmatter. If a file is found, it will be copied to the destination directory. If the file already exists in the destination directory, it will be overwritten.
 
 Actually publication to your Quartz site is not handled by this tool. You will need to run the Quartz build command to generate the site after running QuartzPublisher.
+
+# TODO
+- [ ] Allow user configuration/persistent settings
+- [ ] Improve/add output
+- [ ] Interactive execution
