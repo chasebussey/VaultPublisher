@@ -1,5 +1,6 @@
 ﻿using System;
 using System.CommandLine;
+using Microsoft.Extensions.Configuration;
 
 namespace QuartzPublisher
 {
@@ -7,15 +8,19 @@ namespace QuartzPublisher
     {
         public static int Main(string[] args)
         {
+            var config = ConfigurationProvider.GetConfiguration();
+            
             var sourceDirectoryOption = new Option<DirectoryInfo?>(
                 name: "--source",
-                description: "Source directory for files to publish, e.g. /path/to/vault"
+                description: "Source directory for files to publish, e.g. /path/to/vault",
+                getDefaultValue: () => ConfigurationProvider.GetDirectory(config["source"])
             );
             sourceDirectoryOption.AddAlias("-s");
             
             var destinationDirectoryOption = new Option<DirectoryInfo?>(
                 name: "--destination",
-                description: "Destination directory for files to publish, e.g. /path/to/content"
+                description: "Destination directory for files to publish, e.g. /path/to/content",
+                getDefaultValue: () => ConfigurationProvider.GetDirectory(config["destination"])
             );
             destinationDirectoryOption.AddAlias("-d");
             
@@ -29,7 +34,7 @@ namespace QuartzPublisher
             var noDeleteOption = new Option<bool>(
                 name: "--no-delete",
                 description: "Disable deletion of files not marked for publishing",
-                getDefaultValue: () => false
+                getDefaultValue: () => ConfigurationProvider.GetBool(config["noDelete"], defaultValue: false)
             );
             
             
@@ -49,7 +54,7 @@ namespace QuartzPublisher
                     return;
                 }
                 
-                Publisher.PublishContent(source?.FullName, destination?.FullName, verbose, noDelete);
+                Publisher.PublishContent(source?.FullName!, destination?.FullName!, verbose, noDelete);
             }, sourceDirectoryOption, destinationDirectoryOption, verboseOption, noDeleteOption);
 
             return rootCommand.Invoke(args);
