@@ -1,4 +1,4 @@
-namespace QuartzPublisher;
+namespace VaultPublisher;
 
 public static class Publisher
 {

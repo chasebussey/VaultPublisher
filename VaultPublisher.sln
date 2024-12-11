@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuartzPublisher", "QuartzPublisher\QuartzPublisher.csproj", "{7F984D2C-4C4C-4112-A214-8743148D022C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VaultPublisher", "VaultPublisher\VaultPublisher.csproj", "{7F984D2C-4C4C-4112-A214-8743148D022C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuartzPublisherTests", "QuartzPublisherTests\QuartzPublisherTests.csproj", "{E66ABF4B-92F5-4E56-A8F7-5992E700435C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VaultPublisher.Tests", "VaultPublisher.Tests\VaultPublisher.Tests.csproj", "{E66ABF4B-92F5-4E56-A8F7-5992E700435C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

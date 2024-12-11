@@ -2,7 +2,7 @@
 using System.CommandLine;
 using Microsoft.Extensions.Configuration;
 
-namespace QuartzPublisher
+namespace VaultPublisher
 {
     public static class Program
     {

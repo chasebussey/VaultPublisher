@@ -21,7 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\QuartzPublisher\QuartzPublisher.csproj" />
+      <ProjectReference Include="..\VaultPublisher\VaultPublisher.csproj" />
     </ItemGroup>
 
 </Project>

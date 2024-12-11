@@ -1,7 +1,7 @@
 using System.CommandLine.Binding;
 using Microsoft.Extensions.Configuration;
 
-namespace QuartzPublisher;
+namespace VaultPublisher;
 
 public class ConfigurationProvider : BinderBase<IConfiguration>
 {

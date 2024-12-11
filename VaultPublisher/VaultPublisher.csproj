@@ -5,21 +5,19 @@
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <AssemblyName>quartz-publish</AssemblyName>
         <Version>1.0.0-alpha.1</Version>
         <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     </PropertyGroup>
     
     <PropertyGroup>
         <PackAsTool>true</PackAsTool>
-        <ToolCommandName>quartz-publish</ToolCommandName>
-        <PackageId>QuartzPublisher</PackageId>
+        <PackageId>VaultPublisher</PackageId>
         <PackageOutputPath>./nupkg</PackageOutputPath>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <RepositoryUrl>https://github.com/chasebussey/QuartzPublisher</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
-        <Description>QuartzPublisher is a tool that assists in publishing Obsidian notes to a Quartz site when the vault and repository are separate.</Description>
+        <Description>VaultPublisher is a tool that assists in publishing Obsidian notes to a static-site generator. Currently only supportz Quartz.</Description>
         <Copyright>Copyright (c) Chase Bussey 2024.</Copyright>
     </PropertyGroup>
 

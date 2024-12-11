@@ -1,6 +1,6 @@
-using QuartzPublisher;
+using VaultPublisher;
 
-namespace QuartzPublisherTests;
+namespace VaultPublisher.Tests;
 
 public class ConfigurationProviderTests
 {
