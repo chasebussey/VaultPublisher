@@ -1,4 +1,5 @@
 using VaultPublisher;
+using Xunit;
 
 namespace VaultPublisher.Tests;
 

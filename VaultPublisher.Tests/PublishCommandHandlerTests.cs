@@ -1,12 +1,13 @@
 ﻿using System;
 using System.CommandLine;
 using System.IO;
-using Xunit;
 using VaultPublisher;
+using VaultPublisher.Commands;
+using Xunit;
 
 namespace VaultPublisher.Tests
 {
-    public class ProgramTests : PublisherTestsBase
+    public class PublishCommandHandlerTests : PublishCommandHandlerTestsBase
     {
         [Fact]
         public void PublishContent_WithSourceAndDestinationDirectories_CopiesFiles()
@@ -16,7 +17,7 @@ namespace VaultPublisher.Tests
             var destination = DestinationDirectory.FullName;
             
             // Act
-            Publisher.PublishContent(source, destination);
+            PublishCommandHandler.PublishContent(source, destination);
             
             // Assert
             Assert.True(File.Exists(Path.Combine(destination, ShouldPublishPath)));
@@ -24,7 +25,7 @@ namespace VaultPublisher.Tests
         }
     }
 
-    public abstract class PublisherTestsBase : IDisposable
+    public abstract class PublishCommandHandlerTestsBase : IDisposable
     {
         protected DirectoryInfo SourceDirectory { get; }
         protected DirectoryInfo DestinationDirectory { get; }
@@ -46,7 +47,7 @@ namespace VaultPublisher.Tests
         protected const string ShouldPublishPath = "testPublish.md";
         protected const string NoPublishPath = "testNoPublish.md";
         
-        protected PublisherTestsBase()
+        protected PublishCommandHandlerTestsBase()
         {
             // Set up test directories
             SourceDirectory = new DirectoryInfo(Path.Combine(Path.GetTempPath(), "source"));

@@ -1,6 +1,6 @@
-namespace VaultPublisher;
+namespace VaultPublisher.Commands;
 
-public static class Publisher
+public static class PublishCommandHandler
 {
     /// <summary>
     /// Iterates through files in Source directory and copies them to Destination directory

@@ -1,5 +1,7 @@
 using System.CommandLine.Binding;
-using Microsoft.Extensions.Configuration;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using Microsoft.Extensions.Configuration; 
 
 namespace VaultPublisher;
 
@@ -31,4 +33,16 @@ public class ConfigurationProvider : BinderBase<IConfiguration>
     }
     
     public static DirectoryInfo? GetDirectory(string? path) => string.IsNullOrEmpty(path) ? null : new DirectoryInfo(path);
+
+    public static void Save(IConfiguration config)
+    {
+        if (!Directory.Exists(ConfigurationDirectory)) Directory.CreateDirectory(ConfigurationDirectory);
+        
+        var flatConfig = config.AsEnumerable()
+            .Where(x => x.Value is not null)
+            .ToDictionary(x => x.Key, x => x.Value);
+        
+        var json = JsonSerializer.Serialize(flatConfig, new JsonSerializerOptions { WriteIndented = true, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
+        File.WriteAllText(ConfigurationFile, json);
+    }
 }
