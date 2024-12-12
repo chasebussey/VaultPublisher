@@ -1,5 +1,7 @@
 # VaultPublisher
 
+[![.NET](https://github.com/chasebussey/VaultPublisher/actions/workflows/dotnet.yml/badge.svg)](https://github.com/chasebussey/VaultPublisher/actions/workflows/dotnet.yml)
+
 VaultPublisher is a .NET Core utility to assist in publishing markdown files from an Obsidian vault to
 a static site generator (currently built with [Quartz](https://quartz.jzhao.xyz) in mind). The tool will search an Obsidian vault
 for any documents with `publish: true` in the frontmatter and copy them to designated destination directory.
