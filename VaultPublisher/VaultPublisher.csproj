@@ -15,7 +15,7 @@
         <PackageOutputPath>./nupkg</PackageOutputPath>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <RepositoryUrl>https://github.com/chasebussey/QuartzPublisher</RepositoryUrl>
+        <RepositoryUrl>https://github.com/chasebussey/VaultPublisher</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <Description>VaultPublisher is a tool that assists in publishing Obsidian notes to a static-site generator. Currently only supportz Quartz.</Description>
         <Copyright>Copyright (c) Chase Bussey 2024.</Copyright>
