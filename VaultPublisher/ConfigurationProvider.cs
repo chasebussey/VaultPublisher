@@ -7,7 +7,7 @@ namespace VaultPublisher;
 
 public class ConfigurationProvider : BinderBase<IConfiguration>
 {
-    private static readonly string _appName = "quartzpublisher";
+    private static readonly string _appName = "vaultpublisher";
 
     private static string ConfigurationDirectory => Path.Combine(Environment.GetFolderPath(
             Environment.SpecialFolder.UserProfile), $".{_appName}");
