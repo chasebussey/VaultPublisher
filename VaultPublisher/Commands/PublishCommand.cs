@@ -2,7 +2,7 @@ using System.CommandLine;
 
 namespace VaultPublisher.Commands;
 
-public class PublishCommand
+public static class PublishCommand
 {
     public static Command Create()
     {
@@ -35,13 +35,20 @@ public class PublishCommand
             description: "Disable deletion of files not marked for publishing",
             getDefaultValue: () => ConfigurationProvider.GetBool(config["noDelete"], defaultValue: false)
         );
+        
+        var showPublishedOption = new Option<bool>(
+            name: "--show-published",
+            description: "Show files that were published",
+            getDefaultValue: () => false
+        );
 
         command.AddOption(sourceDirectoryOption);
         command.AddOption(destinationDirectoryOption);
         command.AddOption(verboseOption);
         command.AddOption(noDeleteOption);
+        command.AddOption(showPublishedOption);
 
-        command.SetHandler((source, destination, verbose, noDelete) =>
+        command.SetHandler((source, destination, verbose, noDelete, showPublishedFiles) =>
         {
             if (source is null || destination is null)
             {
@@ -49,8 +56,8 @@ public class PublishCommand
                 return;
             }
             
-            PublishCommandHandler.PublishContent(source?.FullName!, destination?.FullName!, verbose, noDelete);
-        }, sourceDirectoryOption, destinationDirectoryOption, verboseOption, noDeleteOption);
+            PublishCommandHandler.PublishContent(source?.FullName!, destination?.FullName!, verbose, noDelete, showPublishedFiles);
+        }, sourceDirectoryOption, destinationDirectoryOption, verboseOption, noDeleteOption, showPublishedOption);
         
         return command;
     }

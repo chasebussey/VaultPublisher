@@ -10,7 +10,7 @@ public static class PublishCommandHandler
     /// <param name="destination"></param>
     /// <param name="verbose"></param>
     /// <param name="noDelete"></param>
-    public static void PublishContent(string source, string destination, bool verbose = false, bool noDelete = false)
+    public static void PublishContent(string source, string destination, bool verbose = false, bool noDelete = false, bool showPublishedFiles = false)
     {
         if (verbose) Console.WriteLine($"Beginning publication of files from {source} to {destination}");
         
@@ -87,6 +87,16 @@ public static class PublishCommandHandler
         }
         
         Console.WriteLine($"Published {publishedFiles.Count} files and deleted {deletedFiles.Count} files from {destination}");
+        
+        if (showPublishedFiles)
+        {
+            WriteSeparator();
+            Console.WriteLine("Published files: ");
+            foreach (var file in publishedFiles)
+            {
+                Console.WriteLine(file);
+            }
+        }
     }
 
     /// <summary>
@@ -120,5 +130,5 @@ public static class PublishCommandHandler
         return shouldPublish;
     }
     
-    private static void WriteSeparator() => Console.WriteLine(new string('-', 50));
+    private static void WriteSeparator() => Console.WriteLine(new string('-', 80));
 }
