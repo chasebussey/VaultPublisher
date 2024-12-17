@@ -41,6 +41,12 @@ public static class PublishCommand
             description: "Show files that were published",
             getDefaultValue: () => false
         );
+        
+        var previewOption = new Option<bool>(
+            name: "--preview",
+            description: "Preview files that would be published and/or deleted without actually publishing them",
+            getDefaultValue: () => false
+        );
 
         command.AddOption(sourceDirectoryOption);
         command.AddOption(destinationDirectoryOption);

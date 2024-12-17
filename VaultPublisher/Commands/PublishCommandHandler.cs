@@ -10,7 +10,7 @@ public static class PublishCommandHandler
     /// <param name="destination"></param>
     /// <param name="verbose"></param>
     /// <param name="noDelete"></param>
-    public static void PublishContent(string source, string destination, bool verbose = false, bool noDelete = false, bool showPublishedFiles = false)
+    public static void PublishContent(string source, string destination, bool verbose = false, bool noDelete = false, bool showPublishedFiles = false, bool preview = false)
     {
         if (verbose) Console.WriteLine($"Beginning publication of files from {source} to {destination}");
         
@@ -23,7 +23,7 @@ public static class PublishCommandHandler
             var fileDestination = Path.Join(destination, Path.GetFileName(file));
 
             if (verbose) Console.WriteLine($"Copying {file} to {fileDestination}");
-            File.Copy(file, fileDestination, true);
+            if (!preview) File.Copy(file, fileDestination, true);
             publishedFiles.Add(fileDestination);
         }
 
@@ -62,7 +62,7 @@ public static class PublishCommandHandler
             if (ShouldPublish(sourceFile)) continue;
 
             if (verbose) Console.WriteLine($"Deleting {file}");
-            File.Delete(file);
+            if (!preview) File.Delete(file);
             deletedFiles.Add(file);
         }
 
@@ -86,7 +86,8 @@ public static class PublishCommandHandler
             WriteSeparator();
         }
         
-        Console.WriteLine($"Published {publishedFiles.Count} files and deleted {deletedFiles.Count} files from {destination}");
+        if (!preview) Console.WriteLine($"Published {publishedFiles.Count} files and deleted {deletedFiles.Count} files from {destination}");
+        if (preview) Console.WriteLine($"Would publish {publishedFiles.Count} files and delete {deletedFiles.Count} files from {destination}");
         
         if (showPublishedFiles)
         {
