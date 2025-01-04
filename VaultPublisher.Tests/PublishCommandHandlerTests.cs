@@ -21,6 +21,7 @@ namespace VaultPublisher.Tests
             
             // Assert
             Assert.True(File.Exists(Path.Combine(destination, ShouldPublishPath)));
+            Assert.True(File.Exists(Path.Combine(destination, "nested", ShouldPublishPath)));
             Assert.False(File.Exists(Path.Combine(destination, NoPublishPath)));
         }
     }
@@ -28,6 +29,7 @@ namespace VaultPublisher.Tests
     public abstract class PublishCommandHandlerTestsBase : IDisposable
     {
         protected DirectoryInfo SourceDirectory { get; }
+        protected DirectoryInfo SourceNestedDirectory { get; }
         protected DirectoryInfo DestinationDirectory { get; }
 
         private const string ShouldPublishText = """
@@ -51,13 +53,16 @@ namespace VaultPublisher.Tests
         {
             // Set up test directories
             SourceDirectory = new DirectoryInfo(Path.Combine(Path.GetTempPath(), "source"));
+            SourceNestedDirectory = new DirectoryInfo(Path.Combine(SourceDirectory.FullName, "nested"));
             DestinationDirectory = new DirectoryInfo(Path.Combine(Path.GetTempPath(), "destination"));
             
             SourceDirectory.Create();
+            SourceNestedDirectory.Create();
             DestinationDirectory.Create();
             
             // Create test files
             File.WriteAllText(Path.Combine(SourceDirectory.FullName, ShouldPublishPath), ShouldPublishText);
+            File.WriteAllText(Path.Combine(SourceNestedDirectory.FullName, ShouldPublishPath), ShouldPublishText);
             File.WriteAllText(Path.Combine(SourceDirectory.FullName, NoPublishPath), NoPublishText);
         }
         
