@@ -10,7 +10,7 @@ namespace VaultPublisher.Tests.Commands;
 public class ConfigCommandHandlerTests
 {
     [Fact]
-    public void Get_WithNullKey_PrintsAllSettings()
+    public void List_PrintsAllSettings()
     {
         var config = new ConfigurationBuilder()
             .AddInMemoryCollection(new Dictionary<string, string>
@@ -23,7 +23,7 @@ public class ConfigCommandHandlerTests
         var output = new StringWriter();
         Console.SetOut(output);
         
-        ConfigCommandHandler.Get(null, config);
+        ConfigCommandHandler.List(config);
         
         var result = output.ToString();
         
