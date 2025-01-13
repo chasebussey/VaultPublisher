@@ -53,8 +53,9 @@ public static class PublishCommand
         command.AddOption(verboseOption);
         command.AddOption(noDeleteOption);
         command.AddOption(showPublishedOption);
+        command.AddOption(previewOption);
 
-        command.SetHandler((source, destination, verbose, noDelete, showPublishedFiles) =>
+        command.SetHandler((source, destination, verbose, noDelete, showPublishedFiles, preview) =>
         {
             if (source is null || destination is null)
             {
@@ -62,8 +63,8 @@ public static class PublishCommand
                 return;
             }
             
-            PublishCommandHandler.PublishContent(source?.FullName!, destination?.FullName!, verbose, noDelete, showPublishedFiles);
-        }, sourceDirectoryOption, destinationDirectoryOption, verboseOption, noDeleteOption, showPublishedOption);
+            PublishCommandHandler.PublishContent(source?.FullName!, destination?.FullName!, verbose, noDelete, showPublishedFiles, preview);
+        }, sourceDirectoryOption, destinationDirectoryOption, verboseOption, noDeleteOption, showPublishedOption, previewOption);
         
         return command;
     }
