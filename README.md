@@ -62,6 +62,6 @@ The `config` command has the following subcommands:
 
 # TODO
 - [x] Allow user configuration/persistent settings.
-- [ ] Add support for nested directories.
+- [x] Add support for nested directories.
 - [ ] Improve/add output.
 - [ ] Interactive execution?
