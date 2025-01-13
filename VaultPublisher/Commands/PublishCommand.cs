@@ -47,6 +47,12 @@ public static class PublishCommand
             description: "Preview files that would be published and/or deleted without actually publishing them",
             getDefaultValue: () => false
         );
+        
+        var excludeDirsOption = new Option<string[]>(
+            name: "--exclude-dirs",
+            description: "Directories to exclude from publishing",
+            getDefaultValue: () => ConfigurationProvider.GetArray(config["excludeDirs"])
+        );
 
         command.AddOption(sourceDirectoryOption);
         command.AddOption(destinationDirectoryOption);
@@ -54,8 +60,9 @@ public static class PublishCommand
         command.AddOption(noDeleteOption);
         command.AddOption(showPublishedOption);
         command.AddOption(previewOption);
+        command.AddOption(excludeDirsOption);
 
-        command.SetHandler((source, destination, verbose, noDelete, showPublishedFiles, preview) =>
+        command.SetHandler((source, destination, verbose, noDelete, showPublishedFiles, preview, excludeDirs) =>
         {
             if (source is null || destination is null)
             {
@@ -63,8 +70,8 @@ public static class PublishCommand
                 return;
             }
             
-            PublishCommandHandler.PublishContent(source?.FullName!, destination?.FullName!, verbose, noDelete, showPublishedFiles, preview);
-        }, sourceDirectoryOption, destinationDirectoryOption, verboseOption, noDeleteOption, showPublishedOption, previewOption);
+            PublishCommandHandler.PublishContent(source?.FullName!, destination?.FullName!, verbose, noDelete, showPublishedFiles, preview, excludeDirs);
+        }, sourceDirectoryOption, destinationDirectoryOption, verboseOption, noDeleteOption, showPublishedOption, previewOption, excludeDirsOption);
         
         return command;
     }

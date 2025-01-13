@@ -33,6 +33,8 @@ public class ConfigurationProvider : BinderBase<IConfiguration>
     }
     
     public static DirectoryInfo? GetDirectory(string? path) => string.IsNullOrEmpty(path) ? null : new DirectoryInfo(path);
+    
+    public static string[] GetArray(string? s) => string.IsNullOrEmpty(s) ? [] : s.Split(',', StringSplitOptions.RemoveEmptyEntries);
 
     public static void Save(IConfiguration config)
     {

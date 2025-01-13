@@ -12,13 +12,16 @@ public static class PublishCommandHandler
     /// <param name="noDelete"></param>
     /// <param name="showPublishedFiles"></param>
     /// <param name="preview"></param>
-    public static void PublishContent(string source, string destination, bool verbose = false, bool noDelete = false, bool showPublishedFiles = false, bool preview = false)
+    /// <param name="excludeDirs"></param>
+    public static void PublishContent(string source, string destination, bool verbose = false, bool noDelete = false,
+        bool showPublishedFiles = false, bool preview = false, string[]? excludeDirs = null)
     {
         if (verbose) Console.WriteLine($"Beginning publication of files from {source} to {destination}");
         
         var publishedFiles = new List<string>();
         var deletedFiles = new List<string>();
-        var directories = Directory.GetDirectories(source);
+        var directories = Directory.GetDirectories(source)
+            .Where(dir => excludeDirs is null || !excludeDirs.Contains(Path.GetFileName(dir)));
         directories = directories.Append(source).ToArray();
         
         foreach (var child in directories)
@@ -36,7 +39,7 @@ public static class PublishCommandHandler
         if (!preview) Console.WriteLine($"Published {publishedFiles.Count} files and deleted {deletedFiles.Count} files from {destination}");
         if (preview) Console.WriteLine($"Would publish {publishedFiles.Count} files and delete {deletedFiles.Count} files from {destination}");
         
-        if (showPublishedFiles)
+        if (showPublishedFiles || preview)
         {
             WriteSeparator();
             Console.WriteLine("Published files: ");
