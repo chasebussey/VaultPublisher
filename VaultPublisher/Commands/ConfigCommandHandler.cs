@@ -12,7 +12,7 @@ internal static class ConfigCommandHandler
         }
     }
 
-    public static void Get(string? key, IConfiguration config)
+    public static void Get(string key, IConfiguration config)
     {
         var value = config[key];
         Console.WriteLine($"{key}: {value}");
