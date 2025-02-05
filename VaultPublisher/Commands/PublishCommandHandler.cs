@@ -76,6 +76,19 @@ public static class PublishCommandHandler
             if (!ShouldPublish(file)) continue;
 
             var fileDestination = Path.Join(destination, Path.GetFileName(file));
+            
+            if (File.Exists(fileDestination))
+            {
+                var sourceContent = File.ReadAllText(file);
+                var destContent = File.ReadAllText(fileDestination);
+
+                if (sourceContent == destContent)
+                {
+                    if (verbose) Console.WriteLine($"Skipping {file} which is unchanged.");
+                    
+                    continue;
+                }
+            }
 
             if (verbose) Console.WriteLine($"Copying {file} to {fileDestination}");
             if (!preview) File.Copy(file, fileDestination, true);
