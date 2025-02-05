@@ -34,6 +34,8 @@ The `publish` command supports the following options:
 - `--destination` or `-d`: The destination directory to copy the published files to.
 - `--verbose` or `-v`: Enable verbose output.
 - `--no-delete` or `-n`: Do not delete files in the destination directory that are not marked for publication in the source directory.
+- `--show-published`: Include the published files in the output.
+- `--preview`: Preview the files that would be published without actually copying them.
 
 VaultPublisher scans the source directory for Markdown files containing `publish: true` in the frontmatter. If a file is found, it will be copied to the destination directory. If the file already exists in the destination directory, it will be overwritten.
 
