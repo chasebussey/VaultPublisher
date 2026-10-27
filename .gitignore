@@ -3,3 +3,13 @@ obj/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
+
+# macOS metadata
+.DS_Store
+
+# Local IDE settings
+.idea/
+*.DotSettings.user
+
+# Generated NuGet packages
+nupkg/
