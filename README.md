@@ -2,14 +2,14 @@
 
 [![.NET](https://github.com/chasebussey/VaultPublisher/actions/workflows/dotnet.yml/badge.svg)](https://github.com/chasebussey/VaultPublisher/actions/workflows/dotnet.yml)
 
-VaultPublisher is a .NET Core utility to assist in publishing markdown files from an Obsidian vault to
+VaultPublisher is a .NET utility to assist in publishing markdown files from an Obsidian vault to
 a static site generator (currently built with [Quartz](https://quartz.jzhao.xyz) in mind). The tool will search an Obsidian vault
 for any documents with `publish: true` in the frontmatter and copy them to designated destination directory.
 
 # Installation
 ## Build from Source
 1. Prerequisites:
-   - .NET Core 9.0
+   - .NET 10 SDK
 2. Steps:
    ```sh
    # Clone the repository
@@ -44,7 +44,7 @@ VaultPublisher scans the source directory for Markdown files containing `publish
 Actual publication to your site is not handled by this tool. You will need to run your static site generator to build the site after the files are copied.
 
 ## Configuration
-VaultPublisher allows for user configuration to be stored in a `config.json` file at `~/.config/vaultpublisher/config.json`. The configuration file is optional. It is a JSON file with the following structure:
+VaultPublisher allows for user configuration to be stored in a `config.json` file at `~/.vaultpublisher/config.json`. The configuration file is optional. It is a JSON file with the following structure:
 ```json
 {
   "source": "<source>",

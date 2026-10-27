@@ -13,3 +13,5 @@ riderModule.iml
 
 # Generated NuGet packages
 nupkg/
+
+.pi/

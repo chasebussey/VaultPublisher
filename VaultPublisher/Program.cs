@@ -1,6 +1,4 @@
-﻿using System;
-using System.CommandLine;
-using Microsoft.Extensions.Configuration;
+﻿using System.CommandLine;
 using VaultPublisher.Commands;
 
 namespace VaultPublisher
@@ -11,10 +9,10 @@ namespace VaultPublisher
         {
             var rootCommand = new RootCommand("Publishes files from a source directory to a target directory");
             
-            rootCommand.AddCommand(ConfigCommand.Create());
-            rootCommand.AddCommand(PublishCommand.Create());
+            rootCommand.Subcommands.Add(ConfigCommand.Create());
+            rootCommand.Subcommands.Add(PublishCommand.Create());
             
-            return rootCommand.Invoke(args);
+            return rootCommand.Parse(args).Invoke();
         }
     }
 }

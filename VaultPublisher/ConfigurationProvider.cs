@@ -1,11 +1,10 @@
-using System.CommandLine.Binding;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.Configuration; 
 
 namespace VaultPublisher;
 
-public class ConfigurationProvider : BinderBase<IConfiguration>
+public class ConfigurationProvider
 {
     private static readonly string _appName = "vaultpublisher";
 
@@ -14,8 +13,6 @@ public class ConfigurationProvider : BinderBase<IConfiguration>
 
     private static string ConfigurationFile => Path.Combine(ConfigurationDirectory, "config.json");
     
-    protected override IConfiguration GetBoundValue(BindingContext bindingContext) => GetConfiguration();
-
     public static IConfiguration GetConfiguration()
     {
         var configuration = new ConfigurationBuilder()

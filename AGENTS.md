@@ -17,7 +17,7 @@ with Quartz in mind. It copies content; it does not build or deploy the site.
 
 ## Build and validation
 
-Use the .NET 9 SDK. Run these commands from the repository root, matching CI:
+Use the .NET 10 SDK. Run these commands from the repository root, matching CI:
 
 ```sh
 dotnet restore
@@ -46,10 +46,8 @@ passed if the SDK is unavailable.
   Avoid reading or writing the developer's actual configuration in tests.
 - CLI arguments are intended to override saved configuration. Cover precedence
   changes with tests.
-- Configuration currently lives at `~/.vaultpublisher/config.json` in the
-  implementation; the README's `~/.config/vaultpublisher/config.json` path differs.
-  Resolve this discrepancy explicitly when changing configuration behavior rather
-  than silently changing the storage location.
+- Configuration lives at `~/.vaultpublisher/config.json`. Preserve this storage
+  location unless explicitly migrating it.
 
 ## Implementation conventions
 

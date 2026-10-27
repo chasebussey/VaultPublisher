@@ -1,78 +1,77 @@
 using System.CommandLine;
+using Microsoft.Extensions.Configuration;
 
 namespace VaultPublisher.Commands;
 
 public static class PublishCommand
 {
-    public static Command Create()
+    public static Command Create() => Create(ConfigurationProvider.GetConfiguration());
+
+    internal static Command Create(IConfiguration config)
     {
         var command = new Command("publish", "Publishes the contents of the source directory to the destination directory");
-        var config = ConfigurationProvider.GetConfiguration();
 
-        var sourceDirectoryOption = new Option<DirectoryInfo?>(
-            name: "--source",
-            description: "Source directory for files to publish, e.g. /path/to/vault",
-            getDefaultValue: () => ConfigurationProvider.GetDirectory(config["source"])
-        );
-        sourceDirectoryOption.AddAlias("-s");
-        
-        var destinationDirectoryOption = new Option<DirectoryInfo?>(
-            name: "--destination",
-            description: "Destination directory for files to publish, e.g. /path/to/content",
-            getDefaultValue: () => ConfigurationProvider.GetDirectory(config["destination"])
-        );
-        destinationDirectoryOption.AddAlias("-d");
-        
-        var verboseOption = new Option<bool>(
-            name: "--verbose",
-            description: "Enable verbose output",
-            getDefaultValue: () => false
-        );
-        verboseOption.AddAlias("-v");
-        
-        var noDeleteOption = new Option<bool>(
-            name: "--no-delete",
-            description: "Disable deletion of files not marked for publishing",
-            getDefaultValue: () => ConfigurationProvider.GetBool(config["noDelete"], defaultValue: false)
-        );
-        
-        var showPublishedOption = new Option<bool>(
-            name: "--show-published",
-            description: "Show files that were published",
-            getDefaultValue: () => false
-        );
-        
-        var previewOption = new Option<bool>(
-            name: "--preview",
-            description: "Preview files that would be published and/or deleted without actually publishing them",
-            getDefaultValue: () => false
-        );
-        
-        var excludeDirsOption = new Option<string[]>(
-            name: "--exclude-dirs",
-            description: "Directories to exclude from publishing",
-            getDefaultValue: () => ConfigurationProvider.GetArray(config["excludeDirs"])
-        );
-
-        command.AddOption(sourceDirectoryOption);
-        command.AddOption(destinationDirectoryOption);
-        command.AddOption(verboseOption);
-        command.AddOption(noDeleteOption);
-        command.AddOption(showPublishedOption);
-        command.AddOption(previewOption);
-        command.AddOption(excludeDirsOption);
-
-        command.SetHandler((source, destination, verbose, noDelete, showPublishedFiles, preview, excludeDirs) =>
+        var sourceDirectoryOption = new Option<DirectoryInfo?>("--source", "-s")
         {
+            Description = "Source directory for files to publish, e.g. /path/to/vault",
+            DefaultValueFactory = _ => ConfigurationProvider.GetDirectory(config["source"])
+        };
+        var destinationDirectoryOption = new Option<DirectoryInfo?>("--destination", "-d")
+        {
+            Description = "Destination directory for files to publish, e.g. /path/to/content",
+            DefaultValueFactory = _ => ConfigurationProvider.GetDirectory(config["destination"])
+        };
+        var verboseOption = new Option<bool>("--verbose", "-v")
+        {
+            Description = "Enable verbose output"
+        };
+        var noDeleteOption = new Option<bool>("--no-delete")
+        {
+            Description = "Disable deletion of files not marked for publishing",
+            DefaultValueFactory = _ => ConfigurationProvider.GetBool(config["noDelete"], defaultValue: false)
+        };
+        var showPublishedOption = new Option<bool>("--show-published")
+        {
+            Description = "Show files that were published"
+        };
+        var previewOption = new Option<bool>("--preview")
+        {
+            Description = "Preview files that would be published and/or deleted without actually publishing them"
+        };
+        var excludeDirsOption = new Option<string[]>("--exclude-dirs")
+        {
+            Description = "Directories to exclude from publishing",
+            DefaultValueFactory = _ => ConfigurationProvider.GetArray(config["excludeDirs"])
+        };
+
+        command.Options.Add(sourceDirectoryOption);
+        command.Options.Add(destinationDirectoryOption);
+        command.Options.Add(verboseOption);
+        command.Options.Add(noDeleteOption);
+        command.Options.Add(showPublishedOption);
+        command.Options.Add(previewOption);
+        command.Options.Add(excludeDirsOption);
+
+        command.SetAction(parseResult =>
+        {
+            var source = parseResult.GetValue(sourceDirectoryOption);
+            var destination = parseResult.GetValue(destinationDirectoryOption);
             if (source is null || destination is null)
             {
                 Console.WriteLine("Source and destination directories must be provided.");
                 return;
             }
-            
-            PublishCommandHandler.PublishContent(source?.FullName!, destination?.FullName!, verbose, noDelete, showPublishedFiles, preview, excludeDirs);
-        }, sourceDirectoryOption, destinationDirectoryOption, verboseOption, noDeleteOption, showPublishedOption, previewOption, excludeDirsOption);
-        
+
+            PublishCommandHandler.PublishContent(
+                source.FullName,
+                destination.FullName,
+                parseResult.GetValue(verboseOption),
+                parseResult.GetValue(noDeleteOption),
+                parseResult.GetValue(showPublishedOption),
+                parseResult.GetValue(previewOption),
+                parseResult.GetValue(excludeDirsOption) ?? []);
+        });
+
         return command;
     }
 }
