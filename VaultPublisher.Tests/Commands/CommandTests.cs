@@ -130,6 +130,25 @@ public class CommandTests
         }
     }
 
+    [Fact]
+    public void Publish_MissingSourceReturnsFailureWithoutCreatingDestination()
+    {
+        var root = Path.Combine(Path.GetTempPath(), $"vaultpublisher-cli-{Guid.NewGuid():N}");
+        var command = PublishCommand.Create(CreateConfiguration());
+        var result = command.Parse(["-s", Path.Combine(root, "missing"), "-d", Path.Combine(root, "output")]);
+
+        try
+        {
+            Assert.Empty(result.Errors);
+            Assert.Equal(1, result.Invoke());
+            Assert.False(Directory.Exists(root));
+        }
+        finally
+        {
+            if (Directory.Exists(root)) Directory.Delete(root, recursive: true);
+        }
+    }
+
     private static IConfiguration CreateConfiguration(Dictionary<string, string?>? values = null) =>
         new ConfigurationBuilder().AddInMemoryCollection(values).Build();
 

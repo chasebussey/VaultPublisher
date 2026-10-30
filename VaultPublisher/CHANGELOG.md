@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+## Unreleased
+
+### Fixes
+* Preserve relative paths at every directory depth instead of flattening and duplicating notes.
+* Match destination deletions by exact relative path and honor excluded directory names throughout source traversal.
+* Plan copying and deletion before making changes; allow preview against a missing destination without filesystem mutations.
+* Reject overlapping roots and linked entries, and report publication failures with a nonzero exit code.
+* Create only directories required for published files; preserve existing empty destination directories and non-Markdown files.
+
 <a name="1.0.1"></a>
 ## [1.0.1](https://www.github.com/chasebussey/VaultPublisher/releases/tag/v1.0.1) (2025-02-05)
 ### Documentation

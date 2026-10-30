@@ -40,7 +40,7 @@ public static class PublishCommand
         };
         var excludeDirsOption = new Option<string[]>("--exclude-dirs")
         {
-            Description = "Directories to exclude from publishing",
+            Description = "Directory names to exclude from publishing at any depth",
             DefaultValueFactory = _ => ConfigurationProvider.GetArray(config["excludeDirs"])
         };
 
@@ -58,18 +58,28 @@ public static class PublishCommand
             var destination = parseResult.GetValue(destinationDirectoryOption);
             if (source is null || destination is null)
             {
-                Console.WriteLine("Source and destination directories must be provided.");
-                return;
+                Console.Error.WriteLine("Source and destination directories must be provided.");
+                return 1;
             }
 
-            PublishCommandHandler.PublishContent(
-                source.FullName,
-                destination.FullName,
-                parseResult.GetValue(verboseOption),
-                parseResult.GetValue(noDeleteOption),
-                parseResult.GetValue(showPublishedOption),
-                parseResult.GetValue(previewOption),
-                parseResult.GetValue(excludeDirsOption) ?? []);
+            try
+            {
+                PublishCommandHandler.PublishContent(
+                    source.FullName,
+                    destination.FullName,
+                    parseResult.GetValue(verboseOption),
+                    parseResult.GetValue(noDeleteOption),
+                    parseResult.GetValue(showPublishedOption),
+                    parseResult.GetValue(previewOption),
+                    parseResult.GetValue(excludeDirsOption) ?? []);
+
+                return 0;
+            }
+            catch (Exception exception) when (exception is IOException or UnauthorizedAccessException or ArgumentException or FormatException)
+            {
+                Console.Error.WriteLine($"Publication failed: {exception.Message}");
+                return 1;
+            }
         });
 
         return command;
